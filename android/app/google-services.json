@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "292414120960",
+    "project_id": "inventory-system-32a2",
+    "storage_bucket": "inventory-system-32a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292414120960:android:a132cb5a61cf94a158e4e5",
+        "android_client_info": {
+          "package_name": "com.example.inventory_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1gQm8R5b9rPYI8-vdSnMrJoaLC7-c-PA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
