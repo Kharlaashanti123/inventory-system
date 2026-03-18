@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import '../models/product.dart';
@@ -7,6 +8,7 @@ import '../models/supplier.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  String get userId => FirebaseAuth.instance.currentUser!.uid;
 
   void _showSuccess(String message) {
     Fluttertoast.showToast(
@@ -28,13 +30,20 @@ class FirestoreService {
 
   // ==================== CATEGORIES ====================
   Stream<List<Category>> getCategories() {
-    return _db.collection('categories').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Category.fromMap(doc.id, doc.data())).toList());
+    return _db
+        .collection('categories')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Category.fromMap(doc.id, doc.data())).toList());
   }
 
   Future<void> addCategory(Category category) async {
     try {
-      await _db.collection('categories').add(category.toMap());
+      await _db.collection('categories').add({
+        ...category.toMap(),
+        'userId': userId,
+      });
       _showSuccess('Category added successfully!');
     } catch (e) {
       _showError('Failed to add category.');
@@ -61,13 +70,20 @@ class FirestoreService {
 
   // ==================== SUPPLIERS ====================
   Stream<List<Supplier>> getSuppliers() {
-    return _db.collection('suppliers').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Supplier.fromMap(doc.id, doc.data())).toList());
+    return _db
+        .collection('suppliers')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Supplier.fromMap(doc.id, doc.data())).toList());
   }
 
   Future<void> addSupplier(Supplier supplier) async {
     try {
-      await _db.collection('suppliers').add(supplier.toMap());
+      await _db.collection('suppliers').add({
+        ...supplier.toMap(),
+        'userId': userId,
+      });
       _showSuccess('Supplier added successfully!');
     } catch (e) {
       _showError('Failed to add supplier.');
@@ -94,13 +110,20 @@ class FirestoreService {
 
   // ==================== PRODUCTS ====================
   Stream<List<Product>> getProducts() {
-    return _db.collection('products').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Product.fromMap(doc.id, doc.data())).toList());
+    return _db
+        .collection('products')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Product.fromMap(doc.id, doc.data())).toList());
   }
 
   Future<void> addProduct(Product product) async {
     try {
-      await _db.collection('products').add(product.toMap());
+      await _db.collection('products').add({
+        ...product.toMap(),
+        'userId': userId,
+      });
       _showSuccess('Product added successfully!');
     } catch (e) {
       _showError('Failed to add product.');
